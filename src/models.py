@@ -3,6 +3,8 @@ Machine Learning Models for Handwritten Number Recognition System (HNRS)
 Implements CNN, SVM, and Random Forest models for digit classification
 """
 
+from __future__ import annotations
+
 import numpy as np
 # TensorFlow is optional for SVM/RF; guard its import to support environments
 # where TensorFlow is unavailable (e.g., Python 3.13). The CNN model will raise
@@ -24,7 +26,12 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import pickle
 import os
-from typing import Tuple, Dict, Any, List, Optional
+from typing import Tuple, Dict, Any, List, Optional, TYPE_CHECKING
+
+# Import keras types only for type checking to avoid runtime TF dependency
+if TYPE_CHECKING:  # pragma: no cover - typing-only imports
+    from tensorflow import keras as tf_keras  # type: ignore
+    from tensorflow.keras import layers as tf_layers  # type: ignore
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -64,7 +71,7 @@ class CNNModel:
                 f"or switch to SVM/Random Forest. Original import error: {_TF_IMPORT_ERROR}"
             )
         
-    def _make_augmentation_layers(self) -> List[layers.Layer]:
+    def _make_augmentation_layers(self) -> List["tf_layers.Layer"]:
         """Return augmentation pipeline conditioned on the requested strength."""
         if not self.use_augmentation:
             return [layers.Input(shape=self.input_shape)]
@@ -84,7 +91,7 @@ class CNNModel:
             layers.RandomContrast(0.10),
         ]
 
-    def _build_default_model(self) -> keras.Sequential:
+    def _build_default_model(self) -> "tf_keras.Sequential":
         """Baseline architecture tuned originally for MNIST digits."""
         self._ensure_tf()
         aug_layers = self._make_augmentation_layers()
@@ -123,7 +130,7 @@ class CNNModel:
         ])
         return model
 
-    def _build_letters_model(self) -> keras.Sequential:
+    def _build_letters_model(self) -> "tf_keras.Sequential":
         """Deeper architecture for letters with more filters and gentler dropout."""
         self._ensure_tf()
         aug_layers = self._make_augmentation_layers()
@@ -174,7 +181,7 @@ class CNNModel:
         
         # Compile model
         # Loss: prefer SparseCategoricalCrossentropy; add label_smoothing only if supported
-        loss_obj: any
+        loss_obj: Any
         try:
             import inspect  # type: ignore
             supports_ls = 'label_smoothing' in inspect.signature(
