@@ -1,6 +1,6 @@
 
 
-MIT
+
 # 🎯 Handwritten Character Recognition System (HNRS)
 
 > A comprehensive Python application for recognizing handwritten digits, letters, and arithmetic expressions using multiple ML/DL backends.
