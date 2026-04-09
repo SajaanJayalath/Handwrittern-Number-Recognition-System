@@ -18,6 +18,7 @@
 - [Running the App](#running-the-app)
 - [Models and Weights](#models-and-weights)
 - [Datasets](#datasets)
+- [Checklist](#checklist)
 
 ---
 
