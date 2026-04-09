@@ -7,7 +7,6 @@
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)](https://www.tensorflow.org/)
-[![License MIT](https://img.shields.io/badge/License-MIT-green)]()
 
 ## 📋 Table of Contents
 
